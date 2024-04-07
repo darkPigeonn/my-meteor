@@ -1,0 +1,24 @@
+<template name="inputComponent">
+  <label>{{label}}</label>
+  <input type="{{type}}" class="form-control" id="{{name}}" />
+</template>
+
+<template name="selectComponent">
+  <label>{{label}}</label>
+
+  <div class="select-box">
+    <div class="select-option">
+      <input type="text" placeholder="Select" id="{{id}}" readonly name="" />
+    </div>
+    <div class="content">
+      <div class="search">
+        <input type="text" id="optionSearch" placeholder="Search" name="" />
+      </div>
+      <ul class="options">
+        {{#each item in listData}}
+        <li value="{{getItemPropertyValue item}}">{{getItemProperty item}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>

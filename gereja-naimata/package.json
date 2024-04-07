@@ -1,0 +1,22 @@
+{
+  "name": "gereja-naimata-stasi",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package meteortesting:mocha"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.23.5",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
+    "bootstrap-select": "^1.13.18",
+    "http": "0.0.1-security",
+    "jquery": "^3.7.1",
+    "meteor-node-stubs": "^1.2.7",
+    "select2": "^4.1.0-rc.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}

@@ -1,0 +1,273 @@
+<template name="keluargaDetailPage">
+  <div class="container">
+    <div class="page-title text-center my-5">
+      <h3>Keluarga {{dataKeluarga.name}}</h3>
+    </div>
+    <div class="page-content my-2">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-warning" id="btn-edit-keluarga">Perbaharui Data Keluarga</button>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="row my-2">
+            <span class="col-4">Nama Kepala Keluarga</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.name}}</span>
+          </div>
+          <div class="row my-2">
+            <span class="col-4">Alamat</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.address}}</span>
+          </div>
+          <div class="row my-2">
+            <span class="col-4">RT/RW</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.rt}} / {{dataKeluarga.rw}}</span>
+          </div>
+          <div class="row my-2">
+            <span class="col-4">Desa/Kelurahan</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.villageName}}</span>
+          </div>
+        </div>
+        <div class="col-6 ">
+          <div class="row my-2">
+            <span class="col-4">Kecamatan</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.districtName}}</span>
+          </div>
+          <div class="row my-2">
+            <span class="col-4">Kabupaten/Kota</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.regenciesName}}</span>
+          </div>
+          <!-- <div class="d-flex my-2">
+            <span class="item item-label">Kode Pos</span>
+            <span class="item item-separator">:</span>
+            <span class="item item-value">{{dataKeluarga.}}</span>
+          </div> -->
+          <div class="row my-2">
+            <span class="col-4">Provinsi</span>
+            <span class="col-1">:</span>
+            <span class="col-6">{{dataKeluarga.provinciName}}</span>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <h3>Daftar Anggota Keluarga</h3>
+      <div class="d-flex justify-content-end my-3">
+        <button class="btn btn-primary" id="btn-tambah-anggota-keluarga">+Anggota Keluarga</button>
+      </div>
+      <table class="table table-info">
+        <thead>
+          <th>Nama Lengkap</th>
+          <th>Status Dalam Keluarga</th>
+          <th>Tempat Lahir</th>
+          <th>Tanggal Lahir</th>
+          <th>Aksi</th>
+        </thead>
+        <tbody>
+          {{#each anggotaKeluarga}}
+          <tr>
+            <td>
+              {{fullName}}
+            </td>
+            <td>{{relationship}}</td>
+            <td>{{pob}}</td>
+            <td>{{dob}}</td>
+            <td>
+              <button class="btn btn-info">Lihat</button>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal Edit Data Keluarga-->
+  <div class="modal fade" id="modalEditKeluarga" tabindex="-1" aria-labelledby="modalEditKeluargaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditKeluargaLabel">Perbaharui Data KK</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <!-- <div class="form-group my-2">
+              <label for="name" class="form-label">Nama Kepala Keluarga</label>
+              <input type="text" class="form-control" id="input-name" />
+            </div> -->
+
+            <div class="form-group my-2">
+
+            </div>
+
+            <div class="form-group my-2">
+              <label>Kepala Keluarga</label>
+              <select class="form-control my-2" id="select-familyHead">
+                {{#each anggotaKeluarga}}
+                <option value="{{_id}}-{{fullName}}">{{fullName}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label for="name" class="form-label">Alamat</label>
+              <input type="text" class="form-control" id="input-address" />
+            </div>
+            <div class="form-group my-2">
+              <label>Provinsi</label>
+              <select class="form-control my-2" id="select-provinci">
+                <option value="0">-- Pilih Provinsi --</option>
+                {{#each getProvinsi}}
+                <option value="{{id}}-{{name}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Kabupaten/Kota</label>
+              <select class="form-control my-2" id="select-regency">
+                <option value="0">-- Pilih Kabupaten/Kota --</option>
+                {{#each listRegency}}
+                <option value="{{id}}-{{name}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Kecamatan</label>
+              <select class="form-control my-2" id="select-district">
+                <option value="0">-- Pilih Kecamatan --</option>
+                {{#each listDistrict}}
+                <option value="{{id}}-{{name}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label>Desa / Kelurahan</label>
+              <select class="form-control my-2" id="select-village">
+                <option value="0">-- Pilih Desa/Kelurahan --</option>
+                {{#each listVillage}}
+                <option value="{{id}}-{{name}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+
+            <div class="row my-2">
+              <div class="form-group col-6">
+                {{>inputComponent type='text' name='rt' label='RT'}}
+              </div>
+              <div class="form-group col-6">
+                {{>inputComponent type='text' name='rw' label='RW'}}
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="btn-save-modal-edit">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Tambah Data Keluarga-->
+  <div class="modal fade" id="modalTambahAnggota" tabindex="-1" aria-labelledby="modalTambahAnggotaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTambahAnggotaLabel">Tambah Anggota Keluarga</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group my-2">
+              {{>inputComponent type='text' name='fullName' label='Nama Lengkap'}}
+            </div>
+            <div class="row my-2">
+              <div class="form-group col-6 my-2">
+                {{>inputComponent type='text' name='nik' label='NIK'}}
+              </div>
+              <div class="form-group col-6 my-2">
+                <label for="label-1">Jenis Kelamin</label>
+                <div class="form-control" style="border: none;">
+                  <label class="radio-inline mx-4">
+                    <input type="radio" name="optradio" class="mx-2 opt-gender" value="0">Pria
+                  </label>
+                  <label class="radio-inline mx-4">
+                    <input type="radio" name="optradio" class="mx-2 opt-gender" value="1">Wanita
+                  </label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row my-2">
+              <div class="form-group col-6 my-2">
+                {{>inputComponent type='text' name='pob' label='Tempat Lahir'}}
+              </div>
+              <div class="form-group col-6 my-2">
+                {{>inputComponent type='date' name='dob' label='Tanggal Lahir'}}
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label>Agama</label>
+              <select id="select-religion" class="form-control">
+                <option value="0">-- Pilih Agama --</option>
+                <option value="1">Katolik</option>
+                <option value="2">Kristen</option>
+                <option value="3">Islam</option>
+                <option value="4">Budha</option>
+                <option value="6">Hindu</option>
+                <option value="5">Konghucu</option>
+
+              </select>
+            </div>
+            <div class="row my-2">
+              <div class="form-group col-6 my-2">
+                {{>inputComponent type='text' name='education' label='Pendidikan Terakhir'}}
+              </div>
+              <div class="form-group col-6 my-2">
+                {{>inputComponent type='text' name='job' label='Jenis Pekerjaan'}}
+              </div>
+            </div>
+            <div class="row my-2">
+              <div class="form-group col-6 my-2">
+                <label>Status Pernikahan</label>
+                <select id="select-marrital" class="form-control">
+                  <option value="0">-- Pilih Status Pernikahan --</option>
+                  <option value="1">Belum Kawin</option>
+                  <option value="2">Kawin</option>
+                </select>
+              </div>
+              <div class="form-group col-6 my-2">
+                <label>Status Hubungan Keluarga</label>
+                <select id="select-relationship" class="form-control">
+                  <option value="0">-- Pilih Status Pernikahan --</option>
+                  <option value="1">Kepala Keluarga</option>
+                  <option value="2">Ibu</option>
+                  <option value="3">Anak</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group my-2">
+              <label>Status Kependudukan</label>
+              <select id="select-civil-status" class="form-control">
+                <option value="0">-- Pilih Kependudukan --</option>
+                <option value="1">Tetap</option>
+                <option value="2">Tidak Tetap</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="btn-save-anggota">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
